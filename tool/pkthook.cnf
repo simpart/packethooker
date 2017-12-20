@@ -1,0 +1,5 @@
+# packet capture target interface
+# ex. eth0, ens3,..
+CAPTURE_IFACE = ""
+
+HOOK_URL = ""

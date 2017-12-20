@@ -4,13 +4,20 @@
  * @author simpart
  */
 /*** include ***/
-#include "tcp.h"
+#include "tcpcon.h"
 
 #ifndef __CNF_H__
 #define __CNF_H__
 
 /*** define ***/
 #define CNF_INI_ENVAL -1
+#define CNF_PATH     "/etc/pkthook/"
+#define CNF_NAME_COM "pkthook"
+#define CNF_NAME_TCN "tcpcon"
+
+
+/*** struct ***/
+
 
 /*** prototype ***/
 /* ctrl */

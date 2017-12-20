@@ -3,7 +3,6 @@
  * @brief packet hooker main function
  * @author simpart
  */
-
 /*** include ***/
 //#include <stdio.h>
 #include "tetraring.h"
@@ -11,33 +10,41 @@
 #include "com.h"
 #include "conf.h"
 
-
 /*** global ***/
-// hooker_lst
-
-/*** define ***/
-#define IFACE_NAME "ens8"
+extern char g_ifname[64];
+/**
+ * @brief hooker id list
+ */
+int gpkh_hooker_lst[] = {
+    COM_HOOKID_TCPCON
+};
 
 /*** function ***/
 int main (void) {
-    int ret = 0;
+    int ret  = 0;
+    int sock = 0;
     uint8_t buf[PIA_ETH_MAXFRM_SIZ] = {0};
     
+    /* load config */
+    ret = pkh_init();
+    if (COM_OK != ret) {
+        printf("failed init\n");
+        return COM_NG;
+    }
+    
     /* init network */
-    ret = ttr_nw_init(IFACE_NAME, buf, sizeof(buf));
-    if (TTR_NG == ret) {
-        return -1;
+    sock = ttr_nw_init(g_ifname, buf, sizeof(buf));
+    if (TTR_NG == sock) {
+        return COM_NG;
     }
     /* set packet receive callback function */
-    ret = ttr_nw_rcvloop(rcv_callback);
+    ret = ttr_nw_rcvloop(sock, rcv_callback);
     if (TTR_NG == ret) {
-        return -1;
+        return COM_NG;
     }
     
-    /* load config */
-    cnf_load();
-    
-    return 0;
+    close(sock);
+    return COM_OK;
 }
 
 /**
@@ -47,42 +54,20 @@ int main (void) {
  * @param[in] size : receive size
  */
 void rcv_callback(uint8_t *buf, size_t size) {
-//printf("receive\n");
-    //uint8_t *seek = NULL;
-//    uint8_t *ppkt      = NULL;
-//    pia_ipv4hdr_t *pip = NULL;
-
-    buf = buf;
-
+    int loop     = 0;
+    int hook_cnt = sizeof(gpkh_hooker_lst)/sizeof(int);
+    
     /* check size */
     if (sizeof(pia_ethhdr_t)+sizeof(pia_ipv4hdr_t) > size) {
         printf("minimum receive size : %u byte\n", (int)size);
         return;
     }
     
-    if (COM_TRUE == tcpcon_isenable()) {
-        tcpcon_pktrcv(buf);
+    /* check packet hooker */
+    for (loop=0; loop < hook_cnt ;loop++) {
+        if (COM_TRUE == pkh_istgt_hook(gpkh_hooker_lst[loop])) {
+            pkh_chkhook(gpkh_hooker_lst[loop], buf, size);
+        }
     }
-    
-    
-    
-//    
-//    if (PIA_TRUE == pia_eth_isip((pia_ethhdr_t *)buf)) {
-//        ppkt = pia_eth_seekpld((pia_ethhdr_t *) buf);
-//        pip  = (pia_ipv4hdr_t *) ppkt;
-//        if (NULL == ppkt) {
-//            return;
-//        }
-//        pia_ip_dump((pia_ipv4hdr_t *) ppkt);
-//        printf("\n");
-//        if (PIA_TRUE == pia_ip_istcp((pia_ipv4hdr_t *) ppkt)) {
-//            ppkt = pia_ip_seekpld((pia_ipv4hdr_t *) ppkt);
-//            if (NULL == ppkt) {
-//                return;
-//            }
-//            pia_tcp_dump_detail((pia_tcphdr_t *) ppkt);
-//            printf("\n");
-//        }
-//    }
 }
 /* end of file */
