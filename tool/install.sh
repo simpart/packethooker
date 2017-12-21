@@ -96,7 +96,7 @@ echo 'packethooker installation start'
 echo '==============================='
 
 # install required package
-yum install -y gcc make
+yum install -y gcc make php
 
 # install required library
 #install_ttr
