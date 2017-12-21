@@ -1,0 +1,21 @@
+##
+# @key   CAPTURE_IFACE
+# @brief target capture interface name
+# @value string type (ex. "eth0", "ens3",..)
+# @attention this is required config
+CAPTURE_IFACE = ""
+
+##
+# @key   HOOK_URI
+# @brief notify destination URI
+# @value string type
+# @attention this is required config
+HOOK_URI = ""
+
+##
+# @key   HOOK_PRM
+# @brief post paraeter
+# @value 'key=value' style string. delimiter is ','.
+# @note  example config for slack post
+#         -> channel=#channel-name,username=username,text={@message}
+HOOK_PRM = ""

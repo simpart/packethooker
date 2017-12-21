@@ -7,7 +7,7 @@ install_ttr () {
     exit;
   fi
   
-  # get ttr
+  # get ttr4c
   git clone https://github.com/simpart/tetraring4c.git
   if [ $? != 0 ]; then
     exit;
@@ -26,6 +26,11 @@ install_ttr () {
   if [ $? != 0 ]; then
     exit;
   fi
+  
+  # install ttr4php
+  cd $SCP_DIR/../src/php/
+  git clone https://github.com/simpart/tetraring4php.git ttr
+  
 }
 
 install_pia () {
@@ -86,20 +91,20 @@ init_cnf () {
     exit;
   fi
   # set ifname
-  sed -i -e "s/CAPTURE_IFACE = \"\"/CAPTURE_IFACE = \"$IFNAME\"/g" $SCP_DIR/pkthook.cnf
+  sed -i -e "s/CAPTURE_IFACE = \"\"/CAPTURE_IFACE = \"$IFNAME\"/g" $SCP_DIR/pkthooker.cnf
   
   # copy config file
-  mkdir /etc/pkthook
+  mkdir /etc/pkthooker
   if [ $? != 0 ]; then
     exit;
   fi
   
-  cp $SCP_DIR/pkthook.cnf /etc/pkthook/
+  cp $SCP_DIR/pkthooker.cnf /etc/pkthooker/
   if [ $? != 0 ]; then
     exit;
   fi
   
-  cp $SCP_DIR/tcpcon.cnf /etc/pkthook/
+  cp $SCP_DIR/tcpcon.cnf /etc/pkthooker/
   if [ $? != 0 ]; then
     exit;
   fi
