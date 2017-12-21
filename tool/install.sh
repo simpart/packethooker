@@ -74,6 +74,21 @@ install_pkthkr () {
 }
 
 init_cnf () {
+  # get ifname
+  for IFNAME in $(ls /sys/class/net/)
+  do
+    if [ "lo" != ${IFNAME} ]; then
+      break;
+    fi
+  done;
+  if [ "lo" = ${IFNAME} ]; then
+    echo "could not find interface name";
+    exit;
+  fi
+  # set ifname
+  sed -i -e "s/CAPTURE_IFACE = \"\"/CAPTURE_IFACE = \"$IFNAME\"/g" $SCP_DIR/pkthook.cnf
+  
+  # copy config file
   mkdir /etc/pkthook
   if [ $? != 0 ]; then
     exit;
