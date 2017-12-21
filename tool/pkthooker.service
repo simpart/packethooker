@@ -1,0 +1,10 @@
+[Unit]
+Description = packethooker daemon
+
+[Service]
+ExecStart = /usr/bin/pkthooker
+Restart = always
+Type = simple
+
+[Install]
+WantedBy = multi-user.target

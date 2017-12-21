@@ -99,10 +99,13 @@ echo '==============================='
 yum install -y gcc make php
 
 # install required library
-#install_ttr
-#install_pia
+install_ttr
+install_pia
 
 # install packethooker
 install_pkthkr
+
+# regist to systemd
+cp $SCP_DIR/pkthooker.service /etc/systemd/system/
 
 #init_cnf
