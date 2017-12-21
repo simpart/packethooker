@@ -103,6 +103,9 @@ init_cnf () {
   if [ $? != 0 ]; then
     exit;
   fi
+  
+  # enable library
+  ldconfig
 }
 
 
