@@ -21,9 +21,12 @@ int pkhtcn_chkhook (uint8_t *pkt, size_t siz) {
     pia_ipv4hdr_t *iphdr  = NULL;
     pia_tcphdr_t  *tcphdr = NULL;
     pkhtcn_counter_t *cnt = NULL;
+    char msg[DPKH_HOKMSG_STRCNT] = {0};
     int ret = 0;
     siz = siz;
-   
+    
+    memset(&msg[0], 0x00, sizeof(DPKH_HOKMSG_STRCNT));
+    
     /* get header */
     ret = pkh_gettcp(pkt, (uint8_t **) &tcphdr);
     if (COM_NG == ret) {
@@ -55,8 +58,12 @@ int pkhtcn_chkhook (uint8_t *pkt, size_t siz) {
         exit(-1); 
     }
     
-    if (COM_TRUE == pkhtcn_iskick(cnt)) {
-        printf("kick!!\n");
+    if (COM_TRUE == pkhtcn_iskick(cnt,&msg[0])) {
+        printf("kick webhook: %s\n", &msg[0]);
+        ret = pkh_hook(&msg[0]);
+        if (COM_OK != ret) {
+            return COM_NG;
+        }
     }
     
     return COM_OK;
@@ -150,27 +157,27 @@ pkhtcn_counter_t * pkhtcn_getcounter(pia_ipv4hdr_t *iphdr, int con_sts) {
     return count;
 }
 
-int pkhtcn_iskick (pkhtcn_counter_t *cnt) {
+int pkhtcn_iskick (pkhtcn_counter_t *cnt, char *msg) {
     int loop = 0;
     
     /* check parameter */
-    if (NULL == cnt) {
+    if ((NULL == cnt) || (NULL == msg)) {
         return COM_NG;
     }
     
-    if (0 == cnt->diff) {
-        /* count is not change */
-        return COM_FALSE;
-    }
-    
 printf(
-    "%u.%u.%u.%u count: %u\n",
+    "%u.%u.%u.%u -> count : %d\n",
     cnt->ipaddr[0],
     cnt->ipaddr[1],
     cnt->ipaddr[2],
     cnt->ipaddr[3],
     cnt->count
 );
+
+    if (0 == cnt->diff) {
+        /* count is not change */
+        return COM_FALSE;
+    }
     
     if (DPKHTCN_TPID_MAX == g_pkhtcn_cnf.type) {
         if (0 >= cnt->diff) {
@@ -182,6 +189,16 @@ printf(
                 continue;
             }
             if (cnt->count == g_pkhtcn_cnf.count[loop]) {
+                snprintf(
+                    msg,
+                    DPKH_HOKMSG_STRCNT,
+                    "%u.%u.%u.%u TCP-Connection count exceeded %u count.",
+                    cnt->ipaddr[0],
+                    cnt->ipaddr[1],
+                    cnt->ipaddr[2],
+                    cnt->ipaddr[3],
+                    cnt->count
+                );
                 return COM_TRUE;
             }
         }

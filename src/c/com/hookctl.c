@@ -4,6 +4,7 @@
  */
 /*** include ***/
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "tetraring.h"
 #include "com.h"
@@ -109,4 +110,32 @@ int phk_swhhook (int hid, int flag) {
     return COM_OK;
 }
 
+
+int pkh_hook (char *msg) {
+    int  ret = 0;
+    char hook_cmd[DPKH_HOKMSG_STRCNT] = {0};
+    
+    /* check parameter */
+    if ((NULL == msg) || (0 == strlen(msg))) {
+        return COM_NG;
+    }
+    
+    memset(&hook_cmd[0], 0x00, sizeof(hook_cmd));
+    snprintf(
+        &hook_cmd[0],
+        DPKH_HOKMSG_STRCNT,
+        "nohup php %sphp/webhook.php \"%s\" &",
+        DPKH_SRCPATH,
+        msg
+    );
+    
+printf("pkh_hook : %s\n", &hook_cmd[0]);
+
+    ret = system(hook_cmd);
+    if (COM_OK != ret) {
+        return COM_NG;
+    }
+    
+    return COM_OK;
+}
 /* end of file */

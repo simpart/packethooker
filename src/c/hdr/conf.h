@@ -11,8 +11,8 @@
 
 /*** define ***/
 #define CNF_INI_ENVAL -1
-#define CNF_PATH     "/etc/pkthook/"
-#define CNF_NAME_COM "pkthook"
+#define CNF_PATH     "/etc/pkthooker/"
+#define CNF_NAME_COM "pkthooker"
 #define CNF_NAME_TCN "tcpcon"
 
 

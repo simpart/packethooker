@@ -69,7 +69,7 @@ int pkhtcn_gettpid (char *);
 int pkhtcn_chkhook (uint8_t *, size_t);
 int pkhtcn_islisten (pia_tcphdr_t *);
 pkhtcn_counter_t * pkhtcn_getcounter(pia_ipv4hdr_t *, int);
-int pkhtcn_iskick (pkhtcn_counter_t *);
+int pkhtcn_iskick (pkhtcn_counter_t *, char *);
 /* conn.c */
 int pkhtcn_chkconn (pia_ipv4hdr_t *, pia_tcphdr_t *);
 int pkhtcn_getmngidx (pia_ipv4hdr_t *, pia_tcphdr_t *);

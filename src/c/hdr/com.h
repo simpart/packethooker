@@ -27,7 +27,8 @@
  */
 #define COM_HOOKID_TCPCON 0x00
 
-
+#define DPKH_HOKMSG_STRCNT 256
+#define DPKH_SRCPATH "/usr/local/src/packethooker/src/"
 
 /*** global ***/
 
@@ -41,6 +42,7 @@ int pkh_init_hook (void);
 int pkh_istgt_hook (int);
 int pkh_chkhook (int, uint8_t *, size_t);
 int phk_swhhook (int, int);
+int pkh_hook (char *);
 /* proto.c */
 int pkh_getip (uint8_t *, uint8_t **);
 int pkh_gettcp (uint8_t *, uint8_t **);
