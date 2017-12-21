@@ -30,6 +30,7 @@ clean:
 
 install:
 	cp ./bin/$(TARGET_EXEC) /usr/bin
+	cp -r ../packethooker/ /usr/local/src/
 
 -include $(DEPS)
 
