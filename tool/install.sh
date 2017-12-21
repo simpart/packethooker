@@ -108,4 +108,4 @@ install_pkthkr
 # regist to systemd
 cp $SCP_DIR/pkthooker.service /etc/systemd/system/
 
-#init_cnf
+init_cnf
