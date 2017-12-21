@@ -1,5 +1,13 @@
-# packet capture target interface
-# ex. eth0, ens3,..
+##
+# @key   CAPTURE_IFACE
+# @brief target capture interface name
+# @value string type (ex. "eth0", "ens3",..)
+# @attention this is required config
 CAPTURE_IFACE = ""
 
+##
+# @key   HOOK_URL
+# @brief notify destination URL
+# @value string type
+# @attention this is required config
 HOOK_URL = ""

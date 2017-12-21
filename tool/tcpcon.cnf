@@ -3,16 +3,19 @@
 # @brief hook type for tcp-connection
 # @value "max-count" : kicks webhook when the connection counter exceeds the COUNT value.
 #        "min-count" : kicks webhook when the connection counter falls the COUNT value.
+# @attention this is required config
 HOOK_TYPE = "max-count"
 
 ##
 # @key   COUNT
 # @brief threshold value for tcp connection
 # @value integer value
+# @attention this is required config
 COUNT = 10,50,100
 
 ##
 # @key   LISTEN_PORT
 # @brief target port number for connection counter
 # @value integer value (0 - 65535)
+# @attention this is required config
 LISTEN_PORT = 80
