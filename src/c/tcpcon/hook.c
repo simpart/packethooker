@@ -41,6 +41,8 @@ int pkhtcn_chkhook (uint8_t *pkt, size_t siz) {
     if (COM_TRUE != pkhtcn_islisten(tcphdr)) {
         return COM_OK;
     }
+//pia_ip_dump(iphdr);
+//pia_tcp_dump_detail(tcphdr);
     
     /* update connection status */
     ret = pkhtcn_chkconn(iphdr, tcphdr);
@@ -48,21 +50,22 @@ int pkhtcn_chkhook (uint8_t *pkt, size_t siz) {
         printf("tcp-connection error \n");
         ttrchn_close();
         exit(-1);
-    }
-    
-    /* get connection counter */
-    cnt = pkhtcn_getcounter(iphdr, ret);
-    if (NULL == cnt) {
-        printf("tcp-connection error \n");
-        ttrchn_close();
-        exit(-1); 
-    }
-    
-    if (COM_TRUE == pkhtcn_iskick(cnt,&msg[0])) {
-        printf("kick webhook: %s\n", &msg[0]);
-        ret = pkh_hook(&msg[0]);
-        if (COM_OK != ret) {
-            return COM_NG;
+    } else if (DPKHTCN_NOCHG != ret) {
+        /* changed counter */
+        /* get connection counter */
+        cnt = pkhtcn_getcounter(iphdr, ret);
+        if (NULL == cnt) {
+            printf("tcp-connection error \n");
+            ttrchn_close();
+            exit(-1);
+        }
+        /* check kick hook */
+        if (COM_TRUE == pkhtcn_iskick(cnt,&msg[0])) {
+            printf("kick webhook: %s\n", &msg[0]);
+            ret = pkh_hook(&msg[0]);
+            if (COM_OK != ret) {
+                return COM_NG;
+            }
         }
     }
     
@@ -117,8 +120,8 @@ pkhtcn_counter_t * pkhtcn_getcounter(pia_ipv4hdr_t *iphdr, int con_sts) {
         if (NULL == count) {
             return NULL;
         }
-        /* check src ip (src is server) */
-        if (0 == memcmp(&(count->ipaddr[0]), &(iphdr->sip[0]), PIA_IP_IPSIZE)) {
+//        /* check dest ip (dst is server) */
+        if (0 == memcmp(&(count->ipaddr[0]), &(iphdr->dip[0]), PIA_IP_IPSIZE)) {
             hit = COM_TRUE;
             break;
         }
@@ -132,7 +135,7 @@ pkhtcn_counter_t * pkhtcn_getcounter(pia_ipv4hdr_t *iphdr, int con_sts) {
             return NULL;
         }
         memset(count, 0x00, sizeof(pkhtcn_counter_t));
-        memcpy(&(count->ipaddr[0]), &(iphdr->sip[0]), PIA_IP_IPSIZE);
+        memcpy(&(count->ipaddr[0]), &(iphdr->dip[0]), PIA_IP_IPSIZE);
         ret = ttrchn_add(g_pkhtcn_count, count);
         if (TTR_NG == ret) {
             return NULL;

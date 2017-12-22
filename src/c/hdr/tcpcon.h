@@ -58,6 +58,11 @@ typedef struct pkhtcn_counter {
     int diff;
 } pkhtcn_counter_t;
 
+//typedef struct pkhtcn_chkret {
+//    int con_sts;
+//    int is_chg;
+//} pkhtcn_chkret_t;
+
 /*** prototype ***/
 /* init */
 int pkhtcn_init (void);

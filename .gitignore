@@ -2,3 +2,4 @@
 src/php/ttr/
 bin/
 bin/pkthooker
+nohup.out
