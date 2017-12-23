@@ -36,5 +36,5 @@ systemctl start pkthooker
 ## Analyzer List
 - TCP-Connection Counter
 - (HTTP Responce Checker)
-- (DB-Query Logger)
+- (Query Responce Checker)
 
