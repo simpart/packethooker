@@ -2,11 +2,20 @@
 PachetHooker is packet capture that has analyze and notify.<br>
 It sends POST if packets are matched specified status.
 
-## Supported Environment
-CentOS 7.x and x86 cpu.
+## Analyzer List
+
+|Analyzer Name| Description |
+|:------------|:------------|
+|TCP-Connection Counter| it counts tcp-connection every server.<br>for example, it sends POST if the counter exceeds specified count.|
+|HTTP Responce Checker | not supported yet   |
+|Query Responce Checker | not supported yet  |
 
 ## Architecture Overview
 ![arch](https://raw.githubusercontent.com/simpart/packethooker/img/img/architecture.png)
+
+## Supported Environment
+- CentOS 7.x
+- x86 cpu
 
 ## Quick Start
 ### install packet-hooker
@@ -36,9 +45,4 @@ systemctl enable pkthooker
 systemctl start pkthooker
 systemctl status pkthooker
 ```
-
-## Analyzer List
-- TCP-Connection Counter
-- (HTTP Responce Checker)
-- (Query Responce Checker)
 
