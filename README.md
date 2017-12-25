@@ -19,8 +19,8 @@ vi /etc/pkthooker/pkthooker.cnf
 CAPTURE_IFACE = "ens3"   # add target interface name
 ```
 
-notify setting
-this is example for slack post setting.
+notify setting<br>
+(this is example for slack post setting.)
 ```
 vi /etc/pkthooker/pkthooker.cnf
 HOOK_URI = "https://hooks.slack.com/services/XXXXX/XXXXX"
@@ -29,8 +29,9 @@ HOOK_PRM = "channel=#(channel-name),username=(botname),text={@message}"
 
 start packethooker
 ```
-systemctl status pkthooker
+systemctl enable pkthooker
 systemctl start pkthooker
+systemctl status pkthooker
 ```
 
 ## Analyzer List
