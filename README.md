@@ -22,7 +22,7 @@ It sends POST if packets are matched specified status.
 ```
 git clone https://github.com/simpart/packethooker.git
 cd packethooker
-./tool/install.sh
+sudo ./tool/install.sh
 ```
 
 ### capture setting
