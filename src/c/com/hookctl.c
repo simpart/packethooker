@@ -9,12 +9,14 @@
 #include "tetraring.h"
 #include "com.h"
 #include "conf.h"
+#include "json.h"
 
 /*** global ***/
 char g_ifname[64] = {0};
 int  g_hookswh[] = {
     COM_FALSE      //! tcp-connection
 };
+
 
 /*** function ***/
 int pkh_init (void) {
@@ -40,7 +42,8 @@ int pkh_init_com (void) {
     ttr_conf_t * com_cnf = NULL;
 
     memset(&g_ifname[0], 0x00, sizeof(g_ifname));
-
+    pkhjsn_init();
+    
     /* load config */
     com_cnf = pkh_getconf(CNF_NAME_COM);
     if (NULL == com_cnf) {

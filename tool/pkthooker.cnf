@@ -3,7 +3,7 @@
 # @brief target capture interface name
 # @value string type (ex. "eth0", "ens3",..)
 # @attention this is required config
-CAPTURE_IFACE = ""
+CAPTURE_IFACE = "ens3"
 
 ##
 # @key   HOOK_URI
