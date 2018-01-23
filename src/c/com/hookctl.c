@@ -132,8 +132,6 @@ int pkh_hook (char *msg) {
         msg
     );
     
-printf("pkh_hook : %s\n", &hook_cmd[0]);
-
     ret = system(hook_cmd);
     if (COM_OK != ret) {
         return COM_NG;

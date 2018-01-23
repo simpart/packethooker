@@ -13,7 +13,7 @@ pkh_jsnelm_t g_jsnlst[DPKH_ELMLEN];
 
 /*** function ***/
 void pkhjsn_init () {
-    memset(&g_jsnlst[0], 0x00, sizeof(pkh_jsnelm_t));
+    memset(&g_jsnlst[0], 0x00, sizeof(pkh_jsnelm_t)*DPKH_ELMLEN);
 }
 
 int pkhjsn_add (char *key, char *val) {
